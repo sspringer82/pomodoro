@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { task as taskPropType } from '../types/task';
 
 export const Task = ({ task }) => {
   return (
@@ -13,10 +14,5 @@ export const Task = ({ task }) => {
 };
 
 Task.propTypes = {
-  task: PropTypes.shape({
-    name: PropTypes.string,
-    duration: PropTypes.number,
-    break: PropTypes.number,
-    amount: PropTypes.number,
-  }),
+  task: taskPropType,
 };
