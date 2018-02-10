@@ -1,1 +1,2 @@
-require('./task.js');
+require('./task');
+require('./task-list');
