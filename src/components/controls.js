@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+`;
 
 export const Controls = ({ onIncrease, onDecrease, onReset }) => {
   return (
-    <div>
+    <Container>
       <div>
         <div>
           <button onClick={onIncrease()}>increase</button>
@@ -16,7 +21,7 @@ export const Controls = ({ onIncrease, onDecrease, onReset }) => {
       <div>
         <button onClick={onReset()}>reset</button>
       </div>
-    </div>
+    </Container>
   );
 };
 
