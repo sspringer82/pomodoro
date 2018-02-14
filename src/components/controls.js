@@ -14,15 +14,15 @@ export const Controls = ({ onIncrease, onDecrease, onReset, task }) => {
     <Container>
       <div>
         <div>
-          <button onClick={onIncrease()}>increase</button>
+          <button onClick={() => onIncrease()}>increase</button>
         </div>
         <div>
-          <button onClick={onDecrease()}>decrease</button>
+          <button onClick={() => onDecrease()}>decrease</button>
         </div>
       </div>
       <div>{formatSeconds(time)}</div>
       <div>
-        <button onClick={onReset()}>reset</button>
+        <button onClick={() => onReset()}>reset</button>
       </div>
     </Container>
   );
