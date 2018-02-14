@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { formatSeconds } from '../util/formatSeconds';
 import { task as taskPropType } from '../types/task';
+import { styleVariables } from '../styles/variables';
 
 const Container = styled.div`
   display: flex;
@@ -10,12 +11,11 @@ const Container = styled.div`
 `;
 
 const Cell = styled.div`
-  margin: 15px;
+  margin: ${styleVariables.margin}
   width: 70px;
 `;
 
 const Name = Cell.extend`
-  margin: 15px;
   width: 200px;
 `;
 
