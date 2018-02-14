@@ -26,8 +26,10 @@ export class Pomodoro extends React.Component {
     const task = this.getActiveTask();
     if (!task) return;
     if (task.started) {
+      console.log('stop');
       clearInterval(this.state.interval);
     } else {
+      console.log('start');
       this.setState(prevState => ({
         ...prevState,
         ...{
@@ -51,12 +53,15 @@ export class Pomodoro extends React.Component {
   }
 
   handleDecrease() {
+    console.log('decrease');
     this.decreaseIncrease(-60);
   }
   handleIncrease() {
+    console.log('increase');
     this.decreaseIncrease(60);
   }
   handleReset() {
+    console.log('reset');
     this.decreaseIncrease(null, true);
   }
 
