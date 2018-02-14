@@ -8,12 +8,8 @@ const Container = styled.div`
   display: flex;
 `;
 
-export const Controls = ({
-  onIncrease,
-  onDecrease,
-  onReset,
-  task: { time },
-}) => {
+export const Controls = ({ onIncrease, onDecrease, onReset, task }) => {
+  const time = task ? task.time : '';
   return (
     <Container>
       <div>

@@ -3,10 +3,17 @@ import PropTypes from 'prop-types';
 import { formatSeconds } from '../util/formatSeconds';
 import { task as taskPropType } from '../types/task';
 
-export const Progress = ({ onToggleStartStop, task: { time, started } }) => {
+export const Progress = ({ onToggleStartStop, task }) => {
+  let time, started;
+
+  if (task) {
+    time = task.time;
+    started = task.started;
+  }
+
   return (
     <div>
-      <div>{formatSeconds(time)}</div>
+      <div>{time ? formatSeconds(time) : ''}</div>
       <div>
         <button onClick={onToggleStartStop()}>
           {started ? 'Stop' : 'Start'}

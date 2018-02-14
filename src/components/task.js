@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { formatSeconds } from '../util/formatSeconds';
 import { task as taskPropType } from '../types/task';
