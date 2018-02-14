@@ -15,7 +15,7 @@ export const Progress = ({ onToggleStartStop, task }) => {
     <div>
       <div>{time ? formatSeconds(time) : ''}</div>
       <div>
-        <button onClick={onToggleStartStop()}>
+        <button onClick={() => onToggleStartStop()}>
           {started ? 'Stop' : 'Start'}
         </button>
       </div>
@@ -25,6 +25,5 @@ export const Progress = ({ onToggleStartStop, task }) => {
 
 Progress.propTypes = {
   onToggleStartStop: PropTypes.func,
-  started: PropTypes.bool,
   task: taskPropType,
 };

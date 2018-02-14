@@ -8,11 +8,12 @@ export class Pomodoro extends React.Component {
     super(props);
     this.state = {
       interval: null,
-      active: 0,
+      active: 1,
       tasks: [
         {
+          id: 1,
           name: 'test',
-          time: 0,
+          time: 20 * 60,
           duration: 20 * 60,
           break: 5 * 60,
           amount: 0,
@@ -23,19 +24,22 @@ export class Pomodoro extends React.Component {
   }
 
   handleToggleStartStop() {
+    console.log('handle Toggle Start Stop');
     const task = this.getActiveTask();
     if (!task) return;
     if (task.started) {
       console.log('stop');
+      this.updateActiveTask({ ...task, started: false });
       clearInterval(this.state.interval);
     } else {
       console.log('start');
+      this.updateActiveTask({ ...task, started: true });
       this.setState(prevState => ({
         ...prevState,
         ...{
           interval: setInterval(() => {
             const task = this.getActiveTask();
-            task.time += 1;
+            task.time -= 1;
             this.updateActiveTask(task);
           }, 1000),
         },
@@ -47,7 +51,7 @@ export class Pomodoro extends React.Component {
     const index = this.state.tasks.findIndex(
       task => task.id === this.state.active,
     );
-    if (index) {
+    if (index >= 0) {
       return this.state.tasks[index];
     }
   }
@@ -66,10 +70,12 @@ export class Pomodoro extends React.Component {
   }
 
   decreaseIncrease(value, reset = false) {
-    const task = this.getActiveTask();
+    const task = { ...this.getActiveTask() };
     if (!task) return;
     if (reset) {
       task.time = task.duration;
+      task.started = false;
+      clearInterval(this.state.interval);
     } else {
       task.time += value;
     }
