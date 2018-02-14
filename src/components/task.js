@@ -10,7 +10,7 @@ const Container = styled.div`
 `;
 
 const Cell = styled.div`
-  margin: ${styleVariables.margin}
+  margin: ${styleVariables.margin};
   width: 70px;
 `;
 
