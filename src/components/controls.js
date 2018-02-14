@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { task as taskPropType } from '../types/task';
+import { formatSeconds } from '../util/formatSeconds';
 
 const Container = styled.div`
   display: flex;
 `;
 
-export const Controls = ({ onIncrease, onDecrease, onReset }) => {
+export const Controls = ({
+  onIncrease,
+  onDecrease,
+  onReset,
+  task: { time },
+}) => {
   return (
     <Container>
       <div>
@@ -17,7 +24,7 @@ export const Controls = ({ onIncrease, onDecrease, onReset }) => {
           <button onClick={onDecrease()}>decrease</button>
         </div>
       </div>
-      <div>Time</div>
+      <div>{formatSeconds(time)}</div>
       <div>
         <button onClick={onReset()}>reset</button>
       </div>
@@ -29,4 +36,5 @@ Controls.propTypes = {
   onIncrease: PropTypes.func,
   onDecrease: PropTypes.func,
   onReset: PropTypes.func,
+  task: taskPropType,
 };

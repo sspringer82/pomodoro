@@ -1,8 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-
 import { Time } from '../components/time';
+import { tasks } from './helpers/task.data';
 
-const time = 20 * 60;
-
-storiesOf('Time', module).add('view', () => <Time time={time} />);
+storiesOf('Time', module).add('view', () => <Time time={tasks[0]} />);
