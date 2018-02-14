@@ -6,7 +6,11 @@ import { styleVariables } from '../styles/variables';
 
 const Container = styled.div`
   display: flex;
-  border-bottom: 1px solid black;
+  width: 410px;
+  margin: 0 auto;
+  border-bottom: 1px solid ${styleVariables.secondary};
+  background-color: ${styleVariables.background};
+  color: ${styleVariables.secondary};
 `;
 
 const Cell = styled.div`
