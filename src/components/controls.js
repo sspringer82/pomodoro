@@ -16,10 +16,6 @@ const Container = styled.div`
   height: 50px;
 `;
 
-const Img = styled.img`
-  color: ${styleVariables.primary};
-`;
-
 const LineContainer = styled.div`
   width: 50px;
   height: 50px;
@@ -93,7 +89,7 @@ export const Controls = ({ onIncrease, onDecrease, onReset, task }) => {
         <Line2 />
       </LineContainer>
       <ButtonContainer>
-        <img src={reset} onClick={() => onReset()} />
+        <img src={reset} onClick={() => onReset()} alt="reset" />
       </ButtonContainer>
     </Container>
   );
