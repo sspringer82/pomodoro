@@ -77,6 +77,7 @@ export class Pomodoro extends React.Component {
       task.started = false;
       clearInterval(this.state.interval);
     } else {
+      task.duration += value;
       task.time += value;
     }
     this.updateActiveTask(task);
