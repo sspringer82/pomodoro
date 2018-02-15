@@ -3,17 +3,32 @@ import { Progress } from './progress';
 import { Controls } from './controls';
 import { TaskList } from './task-list';
 
+const GRANTED = 'granted';
+
 export class Pomodoro extends React.Component {
   constructor(props) {
     super(props);
+
+    let permission = false;
+
+    if (window.hasOwnProperty('Notification')) {
+      permission = Notification.permissionGranted === GRANTED;
+      if (!permission) {
+        Notification.requestPermission(permission => {
+          this.setState({ notificationPermission: permission === GRANTED });
+        });
+      }
+    }
+
     this.state = {
       interval: null,
+      notificationPermission: false,
       active: 1,
       tasks: [
         {
           id: 1,
           name: 'test',
-          time: 20 * 60,
+          time: 20,
           duration: 20 * 60,
           break: 5 * 60,
           amount: 0,
@@ -28,23 +43,42 @@ export class Pomodoro extends React.Component {
     const task = this.getActiveTask();
     if (!task) return;
     if (task.started) {
-      console.log('stop');
-      this.updateActiveTask({ ...task, started: false });
-      clearInterval(this.state.interval);
+      this.stop(task);
     } else {
-      console.log('start');
-      this.updateActiveTask({ ...task, started: true });
-      this.setState(prevState => ({
-        ...prevState,
-        ...{
-          interval: setInterval(() => {
-            const task = this.getActiveTask();
+      this.start(task);
+    }
+  }
+
+  finish(task) {
+    if (this.state.notificationPermission) {
+      new Notification(task.name + ' ended');
+    }
+    this.stop(task);
+  }
+
+  stop(task) {
+    console.log('stop');
+    this.updateActiveTask({ ...task, started: false });
+    clearInterval(this.state.interval);
+  }
+
+  start(task) {
+    console.log('start');
+    this.updateActiveTask({ ...task, started: true });
+    this.setState(prevState => ({
+      ...prevState,
+      ...{
+        interval: setInterval(() => {
+          const task = this.getActiveTask();
+          if (task.time <= 0) {
+            this.finish(task);
+          } else {
             task.time -= 1;
             this.updateActiveTask(task);
-          }, 1000),
-        },
-      }));
-    }
+          }
+        }, 1000),
+      },
+    }));
   }
 
   getActiveTask() {
