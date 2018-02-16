@@ -10,7 +10,7 @@ import reset from '../assets/reset.svg';
 
 const Container = styled.div`
   display: flex;
-  width: 410px;
+  width: 375px;
   margin: 0 auto;
   border-bottom: 1px solid ${styleVariables.secondary};
   height: 50px;
@@ -24,7 +24,7 @@ const LineContainer = styled.div`
 const TimeContainer = styled.div`
   text-align: center;
   vertical-align: middle;
-  width: 170px;
+  width: 135px;
   height: 45px;
   display: flex;
   justify-content: center;

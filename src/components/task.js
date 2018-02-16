@@ -6,7 +6,7 @@ import { styleVariables } from '../styles/variables';
 
 const Container = styled.div`
   display: flex;
-  width: 410px;
+  width: 375px;
   margin: 0 auto;
   border-bottom: 1px solid ${styleVariables.secondary};
   background-color: ${styleVariables.background};
@@ -15,11 +15,11 @@ const Container = styled.div`
 
 const Cell = styled.div`
   margin: ${styleVariables.margin};
-  width: 70px;
+  width: 50px;
 `;
 
 const Name = Cell.extend`
-  width: 200px;
+  width: 225px;
 `;
 
 export const Task = ({ task }) => {

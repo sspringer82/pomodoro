@@ -10,7 +10,7 @@ import NVD3Chart from 'react-nvd3';
 
 const Container = styled.div`
   display: flex;
-  width: 410px;
+  width: 375px;
   margin: 0 auto;
   position: relative;
   height: 300px;
@@ -18,7 +18,7 @@ const Container = styled.div`
 
 const ButtonContainer = styled.div`
   position: absolute;
-  left: ${(410 - 40) / 2}px;
+  left: ${(375 - 40) / 2}px;
   top: ${(300 - 40) / 2}px;
   display: flex;
   align-items: center;
@@ -45,7 +45,7 @@ export const Progress = ({ onToggleStartStop, task }) => {
     <Container>
       <NVD3Chart
         id="chart"
-        width={410}
+        width={375}
         height={300}
         type="pieChart"
         datum={data}
