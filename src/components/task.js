@@ -39,7 +39,7 @@ export const Task = ({ task, onDelete }) => {
       <Cell>{formatSeconds(task.break)}</Cell>
       <Cell>{task.amount}</Cell>
       <DelCell>
-        <img src={del} onClick={() => onDelete()} />
+        <img src={del} onClick={task => onDelete(task)} />
       </DelCell>
     </Container>
   );

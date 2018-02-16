@@ -34,6 +34,15 @@ export class Pomodoro extends React.Component {
           amount: 0,
           started: false,
         },
+        {
+          id: 2,
+          name: 'test2',
+          time: 20 * 60,
+          duration: 20 * 60,
+          break: 5 * 60,
+          amount: 0,
+          started: false,
+        },
       ],
     };
   }
@@ -103,6 +112,12 @@ export class Pomodoro extends React.Component {
     console.log('reset');
     this.decreaseIncrease(null, true);
   }
+  handleDelete(task) {
+    const index = this.state.tasks.findIndex(t => t.id === task.id);
+    const tasks = [...this.state.tasks];
+    tasks.splice(index, 1);
+    this.setState(prev => ({ ...prev, ...{ tasks: tasks } }));
+  }
 
   decreaseIncrease(value, reset = false) {
     const task = { ...this.getActiveTask() };
@@ -148,7 +163,10 @@ export class Pomodoro extends React.Component {
           onReset={() => this.handleReset()}
           task={activeTask}
         />
-        <TaskList tasks={this.state.tasks} />
+        <TaskList
+          tasks={this.state.tasks}
+          onDelete={task => this.handleDelete(task)}
+        />
       </div>
     );
   }
