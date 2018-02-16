@@ -8,4 +8,5 @@ export const task = PropTypes.shape({
   break: PropTypes.number,
   amount: PropTypes.number,
   started: PropTypes.bool,
+  active: PropTypes.bool,
 });

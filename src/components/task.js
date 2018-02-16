@@ -31,15 +31,24 @@ const Name = Cell.extend`
   width: 185px;
 `;
 
-export const Task = ({ task, onDelete }) => {
+const ActiveName = Name.extend`
+  color: ${styleVariables.primary};
+  font-weight: bold;
+`;
+
+export const Task = ({ task, onDelete, onActivate }) => {
   return (
     <Container>
-      <Name>{task.name}</Name>
+      {task.active ? (
+        <ActiveName>{task.name}</ActiveName>
+      ) : (
+        <Name onClick={() => onActivate(task)}>{task.name}</Name>
+      )}
       <Cell>{formatSeconds(task.duration)}</Cell>
       <Cell>{formatSeconds(task.break)}</Cell>
       <Cell>{task.amount}</Cell>
       <DelCell>
-        <img src={del} onClick={task => onDelete(task)} />
+        <img src={del} onClick={task => onDelete(task)} alt="delete" />
       </DelCell>
     </Container>
   );
@@ -48,4 +57,5 @@ export const Task = ({ task, onDelete }) => {
 Task.propTypes = {
   task: taskPropType,
   onDelete: PropTypes.func,
+  onActivate: PropTypes.func,
 };

@@ -33,6 +33,7 @@ export class Pomodoro extends React.Component {
           break: 5 * 60,
           amount: 0,
           started: false,
+          active: true,
         },
         {
           id: 2,
@@ -42,6 +43,7 @@ export class Pomodoro extends React.Component {
           break: 5 * 60,
           amount: 0,
           started: false,
+          active: false,
         },
       ],
     };
@@ -68,13 +70,13 @@ export class Pomodoro extends React.Component {
 
   stop(task) {
     console.log('stop');
-    this.updateActiveTask({ ...task, started: false });
+    this.updateTask({ ...task, started: false });
     clearInterval(this.state.interval);
   }
 
   start(task) {
     console.log('start');
-    this.updateActiveTask({ ...task, started: true });
+    this.updateTask({ ...task, started: true });
     this.setState(prevState => ({
       ...prevState,
       ...{
@@ -84,7 +86,7 @@ export class Pomodoro extends React.Component {
             this.finish(task);
           } else {
             task.time -= 1;
-            this.updateActiveTask(task);
+            this.updateTask(task);
           }
         }, 1000),
       },
@@ -119,6 +121,15 @@ export class Pomodoro extends React.Component {
     this.setState(prev => ({ ...prev, ...{ tasks: tasks } }));
   }
 
+  handleActivate(task) {
+    const at = this.getActiveTask();
+    at.active = false;
+    this.updateTask(at);
+    task.active = true;
+    this.updateTask(task);
+    this.setState({ active: task.id });
+  }
+
   decreaseIncrease(value, reset = false) {
     const task = { ...this.getActiveTask() };
     if (!task) return;
@@ -132,10 +143,10 @@ export class Pomodoro extends React.Component {
         task.time += value;
       }
     }
-    this.updateActiveTask(task);
+    this.updateTask(task);
   }
 
-  updateActiveTask(task) {
+  updateTask(task) {
     this.setState(prevState => {
       const state = { ...prevState };
       const tasks = [...this.state.tasks];
@@ -166,6 +177,7 @@ export class Pomodoro extends React.Component {
         <TaskList
           tasks={this.state.tasks}
           onDelete={task => this.handleDelete(task)}
+          onActivate={task => this.handleActivate(task)}
         />
       </div>
     );
