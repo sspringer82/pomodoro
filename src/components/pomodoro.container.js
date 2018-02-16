@@ -28,7 +28,7 @@ export class Pomodoro extends React.Component {
         {
           id: 1,
           name: 'test',
-          time: 20,
+          time: 20 * 60,
           duration: 20 * 60,
           break: 5 * 60,
           amount: 0,
@@ -50,6 +50,7 @@ export class Pomodoro extends React.Component {
   }
 
   finish(task) {
+    task.amount += 1;
     if (this.state.notificationPermission) {
       new Notification(task.name + ' ended');
     }
