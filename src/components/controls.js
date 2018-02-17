@@ -9,6 +9,7 @@ import arrowUp from '../assets/arrow-down.svg';
 import reset from '../assets/reset.svg';
 
 const Container = styled.div`
+  background-color: ${styleVariables.background};
   display: flex;
   width: 375px;
   margin: 0 auto;
