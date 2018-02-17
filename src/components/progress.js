@@ -28,7 +28,7 @@ const ButtonContainer = styled.div`
   height: 40px;
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   position: absolute;
   top: 0;
   left: 0;
@@ -37,6 +37,8 @@ const Title = styled.div`
   justify-content: center;
   color: ${styleVariables.secondary};
   font-size: 35px;
+  margin: 0;
+  font-weight: normal;
 `;
 
 export const Progress = ({ onToggleStartStop, task }) => {
