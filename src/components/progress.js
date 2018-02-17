@@ -9,6 +9,7 @@ import stop from '../assets/stop.svg';
 import NVD3Chart from 'react-nvd3';
 
 const Container = styled.div`
+  background-color: ${styleVariables.background};
   display: flex;
   width: 375px;
   margin: 0 auto;
