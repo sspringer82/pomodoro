@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { task as taskPropType } from '../types/task';
 import { styleVariables } from '../styles/variables';
 import { Task } from './task';
+import { Form } from './form';
 import add from '../assets/add.svg';
 
 const Container = styled.div`
@@ -23,26 +24,52 @@ const AddButton = styled.div`
   margin-top: 4px;
 `;
 
-export const TaskList = ({ tasks, onDelete, onActivate }) => {
-  return (
-    <Container>
-      {tasks.map((task, index) => (
-        <Task
-          key={index}
-          task={task}
-          onDelete={onDelete}
-          onActivate={onActivate}
-        />
-      ))}
-      <AddButton>
-        <img src={add} alt="add" />
-      </AddButton>
-    </Container>
-  );
-};
+export class TaskList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      addMode: false,
+    };
+  }
+
+  handleCreate(data) {
+    this.toggleAddMode();
+    this.props.onCreate(data);
+  }
+
+  render() {
+    const { tasks, onDelete, onActivate } = this.props;
+    return (
+      <Container>
+        {tasks.map((task, index) => (
+          <Task
+            key={index}
+            task={task}
+            onDelete={onDelete}
+            onActivate={onActivate}
+          />
+        ))}
+        {this.state.addMode ? (
+          <Form onCreate={data => this.handleCreate(data)} />
+        ) : (
+          <AddButton onClick={() => this.toggleAddMode()}>
+            <img src={add} alt="add" />
+          </AddButton>
+        )}
+      </Container>
+    );
+  }
+
+  toggleAddMode() {
+    this.setState({
+      addMode: !this.state.addMode,
+    });
+  }
+}
 
 Task.propTypes = {
   tasks: PropTypes.arrayOf(taskPropType),
   onDelete: PropTypes.func,
   onActivate: PropTypes.func,
+  onCreate: PropTypes.func,
 };

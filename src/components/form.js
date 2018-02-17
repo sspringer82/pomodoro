@@ -10,7 +10,7 @@ const Container = styled.div`
   height: 50px;
   border-top: 1px solid ${styleVariables.secondary};
   border-bottom: 1px solid ${styleVariables.secondary};
-  padding: 4px 0 4px 4px;
+  padding: 4px;
   background-color: ${styleVariables.background};
 `;
 
@@ -21,6 +21,16 @@ const Input = styled.input`
   border: 1px solid ${styleVariables.secondary};
   color: ${styleVariables.secondary};
   background-color: ${styleVariables.background};
+`;
+
+const Title = Input.extend`
+  width: 192px;
+`;
+const Time = Input.extend`
+  width: 40px;
+`;
+const Break = Input.extend`
+  width: 40px;
 `;
 
 const ButtonContainer = styled.div`
@@ -49,21 +59,24 @@ export class Form extends React.Component {
   render() {
     return (
       <Container>
-        <Input
+        <Title
           type="text"
           placeholder="title"
+          name="title"
           value={this.state.title}
           onChange={event => this.handleChange(event)}
         />
-        <Input
+        <Time
           type="text"
           placeholder="time"
+          name="time"
           value={this.state.time}
           onChange={event => this.handleChange(event)}
         />
-        <Input
+        <Break
           type="text"
           placeholder="break"
+          name="break"
           value={this.state.break}
           onChange={event => this.handleChange(event)}
         />

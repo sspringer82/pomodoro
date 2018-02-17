@@ -130,6 +130,33 @@ export class Pomodoro extends React.Component {
     this.setState({ active: task.id });
   }
 
+  handleCreate(data) {
+    this.setState(prevState => {
+      const state = { ...prevState };
+      const tasks = [...this.state.tasks];
+
+      const nextId =
+        tasks.reduce(
+          (prev, current) => (prev > current.id ? prev : current.id),
+          0,
+        ) + 1;
+
+      tasks.push({
+        id: nextId,
+        name: data.title,
+        time: parseInt(data.time * 60, 10),
+        duration: parseInt(data.time * 60, 10),
+        break: parseInt(data.break * 60, 10),
+        amount: 0,
+        started: false,
+        active: false,
+      });
+
+      state.tasks = tasks;
+      return state;
+    });
+  }
+
   decreaseIncrease(value, reset = false) {
     const task = { ...this.getActiveTask() };
     if (!task) return;
@@ -178,6 +205,7 @@ export class Pomodoro extends React.Component {
           tasks={this.state.tasks}
           onDelete={task => this.handleDelete(task)}
           onActivate={task => this.handleActivate(task)}
+          onCreate={data => this.handleCreate(data)}
         />
       </div>
     );
