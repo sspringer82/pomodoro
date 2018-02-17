@@ -15,6 +15,11 @@ const Container = styled.div`
   color: ${styleVariables.secondary};
 `;
 
+const ActiveContainer = Container.extend`
+  box-shadow: inset 0px 11px 8px -10px ${styleVariables.primary},
+    inset 0px -11px 8px -10px ${styleVariables.primary};
+`;
+
 const Cell = styled.div`
   margin: ${styleVariables.margin} 5px;
   display: flex;
@@ -23,8 +28,12 @@ const Cell = styled.div`
 `;
 
 const DelCell = Cell.extend`
-  width: 70px;
-  justify-content: center;
+  width: 20px;
+  margin-right: 25px;
+`;
+
+const Amount = Cell.extend`
+  width: 20px;
 `;
 
 const Name = Cell.extend`
@@ -37,21 +46,31 @@ const ActiveName = Name.extend`
 `;
 
 export const Task = ({ task, onDelete, onActivate }) => {
-  return (
-    <Container>
-      {task.active ? (
+  if (task.active) {
+    return (
+      <ActiveContainer>
         <ActiveName>{task.name}</ActiveName>
-      ) : (
+        <Cell>{formatSeconds(task.duration)}</Cell>
+        <Cell>{formatSeconds(task.break)}</Cell>
+        <Amount>{task.amount}</Amount>
+        <DelCell>
+          <img src={del} onClick={task => onDelete(task)} alt="delete" />
+        </DelCell>
+      </ActiveContainer>
+    );
+  } else {
+    return (
+      <Container>
         <Name onClick={() => onActivate(task)}>{task.name}</Name>
-      )}
-      <Cell>{formatSeconds(task.duration)}</Cell>
-      <Cell>{formatSeconds(task.break)}</Cell>
-      <Cell>{task.amount}</Cell>
-      <DelCell>
-        <img src={del} onClick={task => onDelete(task)} alt="delete" />
-      </DelCell>
-    </Container>
-  );
+        <Cell>{formatSeconds(task.duration)}</Cell>
+        <Cell>{formatSeconds(task.break)}</Cell>
+        <Amount>{task.amount}</Amount>
+        <DelCell>
+          <img src={del} onClick={task => onDelete(task)} alt="delete" />
+        </DelCell>
+      </Container>
+    );
+  }
 };
 
 Task.propTypes = {
