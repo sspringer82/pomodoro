@@ -13,17 +13,30 @@ const Container = styled.div`
   width: 375px;
   margin: 0 auto;
   position: relative;
-  height: 300px;
+  padding-top: 13px;
+  height: 280px;
+  overflow: hidden;
 `;
 
 const ButtonContainer = styled.div`
   position: absolute;
   left: ${(375 - 40) / 2}px;
-  top: ${(300 - 40) / 2}px;
+  top: ${10 + (300 - 40) / 2}px;
   display: flex;
   align-items: center;
   width: 40px;
   height: 40px;
+`;
+
+const Title = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: ${styleVariables.secondary};
+  font-size: 35px;
 `;
 
 export const Progress = ({ onToggleStartStop, task }) => {
@@ -57,6 +70,7 @@ export const Progress = ({ onToggleStartStop, task }) => {
         donutRatio={0.85}
         growOnHover={false}
       />
+      <Title>{task.name}</Title>
 
       <ButtonContainer>
         <div onClick={() => onToggleStartStop()}>
