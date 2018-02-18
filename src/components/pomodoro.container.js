@@ -20,42 +20,13 @@ export class Pomodoro extends React.Component {
       }
     }
 
+    const tasks = localStorage.getItem('tasks');
+
     this.state = {
       interval: null,
       notificationPermission: false,
       active: 1,
-      tasks: [
-        {
-          id: 1,
-          name: 'Sleep',
-          time: 25 * 60,
-          duration: 25 * 60,
-          break: 5 * 60,
-          amount: 0,
-          started: false,
-          active: true,
-        },
-        {
-          id: 2,
-          name: 'Eat',
-          time: 25 * 60,
-          duration: 25 * 60,
-          break: 5 * 60,
-          amount: 0,
-          started: false,
-          active: false,
-        },
-        {
-          id: 3,
-          name: 'Code',
-          time: 25 * 60,
-          duration: 25 * 60,
-          break: 5 * 60,
-          amount: 0,
-          started: false,
-          active: false,
-        },
-      ],
+      tasks: tasks || [],
     };
   }
 

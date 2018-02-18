@@ -47,6 +47,8 @@ export const Progress = ({ onToggleStartStop, task }) => {
 
   if (task) {
     started = task.started;
+  } else {
+    task = { time: 0, duration: 0 };
   }
 
   var data = [
