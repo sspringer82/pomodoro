@@ -20,7 +20,7 @@ export class Pomodoro extends React.Component {
       }
     }
 
-    const tasks = localStorage.getItem('tasks');
+    const tasks = JSON.parse(localStorage.getItem('tasks'));
 
     this.state = {
       interval: null,
@@ -99,6 +99,7 @@ export class Pomodoro extends React.Component {
     const index = this.state.tasks.findIndex(t => t.id === task.id);
     const tasks = [...this.state.tasks];
     tasks.splice(index, 1);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
     this.setState(prev => ({ ...prev, ...{ tasks: tasks } }));
   }
 
@@ -133,6 +134,7 @@ export class Pomodoro extends React.Component {
         active: false,
       });
 
+      localStorage.setItem('tasks', JSON.stringify(tasks));
       state.tasks = tasks;
       return state;
     });
@@ -163,6 +165,8 @@ export class Pomodoro extends React.Component {
       tasks[index] = task;
 
       state.tasks = tasks;
+
+      localStorage.setItem('tasks', JSON.stringify(tasks));
       return state;
     });
   }
