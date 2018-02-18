@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { styleVariables } from '../styles/variables';
 import styled from 'styled-components';
-import { Button } from 'glamorous';
 import add from '../assets/add.svg';
 
 const Container = styled.div`
