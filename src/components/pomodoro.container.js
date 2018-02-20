@@ -101,21 +101,21 @@ export class Pomodoro extends React.Component {
     const tasks = [...this.state.tasks];
     tasks.splice(index, 1);
     localStorage.setItem('tasks', JSON.stringify(tasks));
-    let active = this.state.active;
+    this.setState(prev => ({ ...prev, ...{ tasks } }));
     if (this.state.active === task.id) {
-      active = tasks[0].id;
+      this.handleActivate(tasks[0]);
     }
-    this.setState(prev => ({ ...prev, ...{ tasks, active } }));
   }
 
   handleActivate(task) {
-    this.setState(
-      this.state.tasks.map(t => {
+    this.setState(prevState => ({
+      tasks: prevState.tasks.map(t => {
         const clone = { ...t };
-        t.active = t.id === task.id ? true : false;
+        clone.active = t.id === task.id ? true : false;
         return clone;
       }),
-    );
+      active: task.id,
+    }));
   }
 
   handleCreate(data) {
