@@ -22,11 +22,12 @@ export class Pomodoro extends React.Component {
     }
 
     const tasks = JSON.parse(localStorage.getItem('tasks'));
+    const active = tasks.find(task => task.active);
 
     this.state = {
       interval: null,
       notificationPermission: false,
-      active: null,
+      active: active !== -1 ? active.id : null,
       tasks: tasks || [],
     };
   }
@@ -100,22 +101,33 @@ export class Pomodoro extends React.Component {
     const index = this.state.tasks.findIndex(t => t.id === task.id);
     const tasks = [...this.state.tasks];
     tasks.splice(index, 1);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
     this.setState(prev => ({ ...prev, ...{ tasks } }));
+    this.storeTasks(tasks);
     if (this.state.active === task.id) {
       this.handleActivate(tasks[0]);
     }
   }
 
   handleActivate(task) {
-    this.setState(prevState => ({
-      tasks: prevState.tasks.map(t => {
+    if (!task) {
+      return;
+    }
+    this.setState(prevState => {
+      const tasks = prevState.tasks.map(t => {
         const clone = { ...t };
         clone.active = t.id === task.id ? true : false;
         return clone;
-      }),
-      active: task.id,
-    }));
+      });
+      this.storeTasks(tasks);
+      return {
+        tasks,
+        active: task.id,
+      };
+    });
+  }
+
+  storeTasks(tasks) {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
   handleCreate(data) {
@@ -143,7 +155,7 @@ export class Pomodoro extends React.Component {
         active: false,
       });
 
-      localStorage.setItem('tasks', JSON.stringify(tasks));
+      this.storeTasks(tasks);
       state.tasks = tasks;
       return state;
     });
