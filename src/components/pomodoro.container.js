@@ -119,6 +119,9 @@ export class Pomodoro extends React.Component {
   }
 
   handleCreate(data) {
+    if (data.title === '') {
+      return;
+    }
     this.setState(prevState => {
       const state = { ...prevState };
       const tasks = [...this.state.tasks];
