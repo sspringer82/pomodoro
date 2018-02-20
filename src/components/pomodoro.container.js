@@ -22,12 +22,10 @@ export class Pomodoro extends React.Component {
     }
 
     const tasks = JSON.parse(localStorage.getItem('tasks'));
-    const active = tasks.find(task => task.active);
 
     this.state = {
       interval: null,
       notificationPermission: false,
-      active: active !== -1 ? active.id : null,
       tasks: tasks || [],
     };
   }
@@ -77,12 +75,7 @@ export class Pomodoro extends React.Component {
   }
 
   getActiveTask() {
-    const index = this.state.tasks.findIndex(
-      task => task.id === this.state.active,
-    );
-    if (index >= 0) {
-      return this.state.tasks[index];
-    }
+    return this.state.tasks.find(task => task.active);
   }
 
   handleDecrease() {
@@ -103,7 +96,7 @@ export class Pomodoro extends React.Component {
     tasks.splice(index, 1);
     this.setState(prev => ({ ...prev, ...{ tasks } }));
     this.storeTasks(tasks);
-    if (this.state.active === task.id) {
+    if (task.active) {
       this.handleActivate(tasks[0]);
     }
   }
@@ -121,7 +114,6 @@ export class Pomodoro extends React.Component {
       this.storeTasks(tasks);
       return {
         tasks,
-        active: task.id,
       };
     });
   }
