@@ -2,6 +2,7 @@ import React from 'react';
 import { Progress } from './progress';
 import { Controls } from './controls';
 import { TaskList } from './task-list';
+import { Footer } from './footer';
 
 const GRANTED = 'granted';
 
@@ -108,14 +109,13 @@ export class Pomodoro extends React.Component {
   }
 
   handleActivate(task) {
-    const at = this.getActiveTask();
-    if (at) {
-      at.active = false;
-      this.updateTask(at);
-    }
-    task.active = true;
-    this.updateTask(task);
-    this.setState({ active: task.id });
+    this.setState(
+      this.state.tasks.map(t => {
+        const clone = { ...t };
+        t.active = t.id === task.id ? true : false;
+        return clone;
+      }),
+    );
   }
 
   handleCreate(data) {
@@ -199,8 +199,8 @@ export class Pomodoro extends React.Component {
           tasks={this.state.tasks}
           onDelete={task => this.handleDelete(task)}
           onActivate={task => this.handleActivate(task)}
-          onCreate={data => this.handleCreate(data)}
         />
+        <Footer onCreate={data => this.handleCreate(data)} />
       </div>
     );
   }
