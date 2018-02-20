@@ -25,7 +25,7 @@ export class Pomodoro extends React.Component {
     this.state = {
       interval: null,
       notificationPermission: false,
-      active: 1,
+      active: null,
       tasks: tasks || [],
     };
   }
@@ -100,13 +100,19 @@ export class Pomodoro extends React.Component {
     const tasks = [...this.state.tasks];
     tasks.splice(index, 1);
     localStorage.setItem('tasks', JSON.stringify(tasks));
-    this.setState(prev => ({ ...prev, ...{ tasks: tasks } }));
+    let active = this.state.active;
+    if (this.state.active === task.id) {
+      active = tasks[0].id;
+    }
+    this.setState(prev => ({ ...prev, ...{ tasks, active } }));
   }
 
   handleActivate(task) {
     const at = this.getActiveTask();
-    at.active = false;
-    this.updateTask(at);
+    if (at) {
+      at.active = false;
+      this.updateTask(at);
+    }
     task.active = true;
     this.updateTask(task);
     this.setState({ active: task.id });
