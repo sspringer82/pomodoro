@@ -4,3 +4,4 @@ require('./controls');
 require('./time');
 require('./progress');
 require('./form');
+require('./footer');
