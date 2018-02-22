@@ -140,8 +140,8 @@ export class Footer extends React.Component {
         )}
         {this.state.settings ? (
           <Settings
-            breakTime={this.state.breakTime}
-            amount={this.state.amount}
+            breakTime={this.props.breakTime}
+            amount={this.props.amount}
             onSave={settings => this.props.saveSettings(settings)}
           />
         ) : (
