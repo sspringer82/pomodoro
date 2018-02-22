@@ -5,3 +5,4 @@ require('./time');
 require('./progress');
 require('./form');
 require('./footer');
+require('./settings');
