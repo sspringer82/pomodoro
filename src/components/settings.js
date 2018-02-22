@@ -22,7 +22,7 @@ const Input = styled.input`
   background-color: ${styleVariables.background};
 `;
 
-const Break = Input.extend`
+const BreakTime = Input.extend`
   width: 192px;
 `;
 const Amount = Input.extend`
@@ -55,18 +55,18 @@ export class Settings extends React.Component {
   render() {
     return (
       <Container>
-        <Break
+        <BreakTime
           type="text"
-          placeholder="break"
-          name="break"
-          value={this.state.break}
+          placeholder="breakTime"
+          name="breakTime"
+          value={this.props.breakTime}
           onChange={event => this.handleChange(event)}
         />
         <Amount
           type="text"
           placeholder="amount"
           name="amount"
-          value={this.state.amount}
+          value={this.props.amount}
           onChange={event => this.handleChange(event)}
         />
         <ButtonContainer onClick={() => this.props.onSave(this.state)}>
@@ -78,5 +78,7 @@ export class Settings extends React.Component {
 }
 
 Settings.propTypes = {
+  breakTime: PropTypes.number,
+  amount: PropTypes.number,
   onSave: PropTypes.func,
 };

@@ -5,6 +5,7 @@ import { Form } from './form';
 import { styleVariables } from '../styles/variables';
 import settings from '../assets/settings.svg';
 import add from '../assets/add.svg';
+import { Settings } from './settings';
 
 const Container = styled.div`
   background-color: ${styleVariables.background};
@@ -69,6 +70,7 @@ export class Footer extends React.Component {
     super(props);
     this.state = {
       addMode: false,
+      settings: false,
     };
   }
 
@@ -83,6 +85,12 @@ export class Footer extends React.Component {
     });
   }
 
+  toggleSettings() {
+    this.setState({
+      settings: !this.state.settings,
+    });
+  }
+
   render() {
     const mode = this.props.mode;
     const fill = mode === 0 ? styleVariables.secondary : styleVariables.primary;
@@ -90,7 +98,11 @@ export class Footer extends React.Component {
       <Container>
         <FooterContainer>
           <ButtonContainer>
-            <img src={settings} alt="settings" />
+            <img
+              onClick={() => this.toggleSettings()}
+              src={settings}
+              alt="settings"
+            />
           </ButtonContainer>
           <LineContainer>
             <Line1 />
@@ -126,6 +138,15 @@ export class Footer extends React.Component {
         ) : (
           ''
         )}
+        {this.state.settings ? (
+          <Settings
+            breakTime={this.state.breakTime}
+            amount={this.state.amount}
+            onSave={settings => this.props.saveSettings(settings)}
+          />
+        ) : (
+          ''
+        )}
       </Container>
     );
   }
@@ -134,4 +155,5 @@ export class Footer extends React.Component {
 Footer.propTypes = {
   mode: PropTypes.number,
   onCreate: PropTypes.func,
+  saveSettings: PropTypes.func,
 };

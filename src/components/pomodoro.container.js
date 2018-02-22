@@ -27,6 +27,8 @@ export class Pomodoro extends React.Component {
       interval: null,
       notificationPermission: false,
       tasks: tasks || [],
+      breakTime: 15,
+      amount: 5,
     };
   }
 
@@ -184,6 +186,13 @@ export class Pomodoro extends React.Component {
     });
   }
 
+  saveSettings({ breakTime, amount }) {
+    this.setState({
+      breakTime,
+      amount,
+    });
+  }
+
   render() {
     const activeTask = this.getActiveTask();
 
@@ -204,7 +213,12 @@ export class Pomodoro extends React.Component {
           onDelete={task => this.handleDelete(task)}
           onActivate={task => this.handleActivate(task)}
         />
-        <Footer onCreate={data => this.handleCreate(data)} />
+        <Footer
+          onCreate={data => this.handleCreate(data)}
+          saveSettings={settings => this.saveSettings(settings)}
+          breakTime={this.state.breakTime}
+          amount={this.state.amount}
+        />
       </div>
     );
   }
