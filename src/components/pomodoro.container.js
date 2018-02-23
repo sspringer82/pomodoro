@@ -3,8 +3,7 @@ import { Progress } from './progress';
 import { Controls } from './controls';
 import { TaskList } from './task-list';
 import { Footer } from './footer';
-
-const GRANTED = 'granted';
+import { GRANTED } from '../util/constants';
 
 export class Pomodoro extends React.Component {
   constructor(props) {
@@ -29,6 +28,7 @@ export class Pomodoro extends React.Component {
       tasks: tasks || [],
       breakTime: 15,
       amount: 5,
+      repeatMode: 0,
     };
   }
 
@@ -193,6 +193,12 @@ export class Pomodoro extends React.Component {
     });
   }
 
+  toggleRepeatMode() {
+    const repeatMode =
+      this.state.repeatMode < 2 ? this.state.repeatMode + 1 : 0;
+    this.setState(prevState => ({ ...prevState, ...{ repeatMode } }));
+  }
+
   render() {
     const activeTask = this.getActiveTask();
 
@@ -218,6 +224,8 @@ export class Pomodoro extends React.Component {
           saveSettings={settings => this.saveSettings(settings)}
           breakTime={this.state.breakTime}
           amount={this.state.amount}
+          repeatMode={this.state.repeatMode}
+          toggleRepeatMode={() => this.toggleRepeatMode()}
         />
       </div>
     );
