@@ -5,7 +5,7 @@ export const tasks = [
     duration: 20 * 60,
     break: 5 * 20,
     amount: 3,
-    started: false,
+    state: STATE_STOPPED,
   },
   {
     name: 'My second task',
@@ -13,6 +13,6 @@ export const tasks = [
     duration: 10 * 60,
     break: 5 * 20,
     amount: 5,
-    started: true,
+    state: STATE_STOPPED,
   },
 ];

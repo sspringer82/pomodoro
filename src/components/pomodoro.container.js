@@ -3,7 +3,13 @@ import { Progress } from './progress';
 import { Controls } from './controls';
 import { TaskList } from './task-list';
 import { Footer } from './footer';
-import { GRANTED } from '../util/constants';
+import {
+  GRANTED,
+  STATE_STARTED,
+  STATE_STOPPED,
+  STATE_PAUSE_STARTED,
+  STATE_PAUSE_STOPPED,
+} from '../util/constants';
 
 export class Pomodoro extends React.Component {
   constructor(props) {
@@ -28,7 +34,6 @@ export class Pomodoro extends React.Component {
       tasks: tasks || [],
       breakTime: 15,
       breakCount: 5,
-      taskCount: 0,
       repeatMode: 0,
     };
   }
@@ -37,7 +42,7 @@ export class Pomodoro extends React.Component {
     console.log('handle Toggle Start Stop');
     const task = this.getActiveTask();
     if (!task) return;
-    if (task.started) {
+    if (task.state === STATE_STARTED || STATE_PAUSE_STARTED) {
       this.stop(task);
     } else {
       this.start(task);
@@ -49,18 +54,32 @@ export class Pomodoro extends React.Component {
     if (this.state.notificationPermission) {
       new Notification(task.name + ' ended');
     }
-    this.stop(task);
+
+    if (task.state === STATE_STARTED) {
+      this.startPause(task);
+    } else {
+      this.stop(task);
+    }
+  }
+
+  startPause(task) {
+    const t = { ...task, time: task.break };
+    clearInterval(this.state.interval);
+    this.start(t, STATE_PAUSE_STARTED);
   }
 
   stop(task) {
-    console.log('stop');
-    this.updateTask({ ...task, started: false });
+    let state = STATE_STOPPED;
+    if (task.state === STATE_PAUSE_STARTED) {
+      state = STATE_PAUSE_STOPPED;
+    }
+    this.updateTask({ ...task, state });
     clearInterval(this.state.interval);
   }
 
-  start(task) {
+  start(task, state = STATE_STARTED) {
     console.log('start');
-    this.updateTask({ ...task, started: true });
+    this.updateTask({ ...task, state });
     this.setState(prevState => ({
       ...prevState,
       ...{
@@ -112,6 +131,7 @@ export class Pomodoro extends React.Component {
       const tasks = prevState.tasks.map(t => {
         const clone = { ...t };
         clone.active = t.id === task.id ? true : false;
+        clone.time = clone.active ? clone.duration : 0;
         return clone;
       });
       this.storeTasks(tasks);
@@ -146,7 +166,7 @@ export class Pomodoro extends React.Component {
         duration: parseInt(data.time * 60, 10),
         break: parseInt(data.break * 60, 10),
         amount: 0,
-        started: false,
+        state: STATE_STOPPED,
         active: false,
       });
 
@@ -161,7 +181,7 @@ export class Pomodoro extends React.Component {
     if (!task) return;
     if (reset) {
       task.time = task.duration;
-      task.started = false;
+      task.state = STATE_STOPPED;
       clearInterval(this.state.interval);
     } else {
       if (task.duration + value >= 0 && task.time + value >= 0) {

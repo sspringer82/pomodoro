@@ -5,6 +5,7 @@ import { task as taskPropType } from '../types/task';
 import { styleVariables } from '../styles/variables';
 import play from '../assets/play.svg';
 import stop from '../assets/stop.svg';
+import { STATE_STARTED, STATE_PAUSE_STARTED } from '../util/constants';
 
 import NVD3Chart from 'react-nvd3';
 
@@ -43,10 +44,10 @@ const Title = styled.h1`
 `;
 
 export const Progress = ({ onToggleStartStop, task }) => {
-  let started;
+  let started = false;
 
   if (task) {
-    started = task.started;
+    started = [STATE_STARTED, STATE_PAUSE_STARTED].includes(task.state);
   } else {
     task = { time: 0, duration: 0 };
   }

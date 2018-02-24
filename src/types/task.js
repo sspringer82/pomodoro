@@ -7,6 +7,6 @@ export const task = PropTypes.shape({
   duration: PropTypes.number,
   break: PropTypes.number,
   amount: PropTypes.number,
-  started: PropTypes.bool,
+  state: PropTypes.number,
   active: PropTypes.bool,
 });
