@@ -42,7 +42,7 @@ export class Pomodoro extends React.Component {
     console.log('handle Toggle Start Stop');
     const task = this.getActiveTask();
     if (!task) return;
-    if (task.state === STATE_STARTED || STATE_PAUSE_STARTED) {
+    if (task.state === STATE_STARTED || task.state === STATE_PAUSE_STARTED) {
       this.stop(task);
     } else {
       this.start(task);
