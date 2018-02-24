@@ -17,6 +17,7 @@ const Input = styled.input`
   height: 36px;
   margin-right: 5px;
   padding: 5px;
+  font-size: 16px;
   border: 1px solid ${styleVariables.secondary};
   color: ${styleVariables.secondary};
   background-color: ${styleVariables.background};
