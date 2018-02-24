@@ -27,7 +27,8 @@ export class Pomodoro extends React.Component {
       notificationPermission: false,
       tasks: tasks || [],
       breakTime: 15,
-      amount: 5,
+      breakCount: 5,
+      taskCount: 0,
       repeatMode: 0,
     };
   }
@@ -186,10 +187,10 @@ export class Pomodoro extends React.Component {
     });
   }
 
-  saveSettings({ breakTime, amount }) {
+  saveSettings({ breakTime, breakCount }) {
     this.setState({
       breakTime,
-      amount,
+      breakCount,
     });
   }
 
@@ -223,7 +224,7 @@ export class Pomodoro extends React.Component {
           onCreate={data => this.handleCreate(data)}
           saveSettings={settings => this.saveSettings(settings)}
           breakTime={this.state.breakTime}
-          amount={this.state.amount}
+          breakCount={this.state.breakCount}
           repeatMode={this.state.repeatMode}
           toggleRepeatMode={() => this.toggleRepeatMode()}
         />

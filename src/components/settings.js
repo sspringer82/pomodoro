@@ -26,7 +26,7 @@ const Input = styled.input`
 const BreakTime = Input.extend`
   width: 192px;
 `;
-const Amount = Input.extend`
+const BreakCount = Input.extend`
   width: 40px;
 `;
 
@@ -42,7 +42,7 @@ const ButtonContainer = styled.div`
 export class Settings extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { title: '', time: '' };
+    this.state = { breakTime: props.breakTime, breakCount: props.breakCount };
   }
 
   handleChange(event) {
@@ -60,14 +60,14 @@ export class Settings extends React.Component {
           type="text"
           placeholder="breakTime"
           name="breakTime"
-          value={this.props.breakTime}
+          value={this.state.breakTime}
           onChange={event => this.handleChange(event)}
         />
-        <Amount
+        <BreakCount
           type="text"
-          placeholder="amount"
-          name="amount"
-          value={this.props.amount}
+          placeholder="count"
+          name="breakCount"
+          value={this.state.breakCount}
           onChange={event => this.handleChange(event)}
         />
         <ButtonContainer onClick={() => this.props.onSave(this.state)}>
@@ -80,6 +80,6 @@ export class Settings extends React.Component {
 
 Settings.propTypes = {
   breakTime: PropTypes.number,
-  amount: PropTypes.number,
+  breakCount: PropTypes.number,
   onSave: PropTypes.func,
 };
