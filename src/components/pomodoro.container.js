@@ -9,6 +9,9 @@ import {
   STATE_STOPPED,
   STATE_PAUSE_STARTED,
   STATE_PAUSE_STOPPED,
+  MODE_SINGLE,
+  MODE_REPEAT_ONE,
+  MODE_REPEAT_ALL,
 } from '../util/constants';
 
 export class Pomodoro extends React.Component {
@@ -58,7 +61,18 @@ export class Pomodoro extends React.Component {
     if (task.state === STATE_STARTED) {
       this.startPause(task);
     } else {
-      this.stop(task);
+      switch (this.state.repeatMode) {
+        case MODE_SINGLE:
+          this.stop(task);
+          break;
+        case MODE_REPEAT_ONE:
+          // stop & start same task or big break
+          break;
+        case MODE_REPEAT_ALL:
+        default:
+          // stop & start next task or big break
+          break;
+      }
     }
   }
 
