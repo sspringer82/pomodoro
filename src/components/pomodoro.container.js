@@ -29,15 +29,18 @@ export class Pomodoro extends React.Component {
       }
     }
 
-    const tasks = JSON.parse(localStorage.getItem('tasks'));
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const repeatMode = parseInt(localStorage.getItem('repeatMode'), 10) || 0;
+    const { breakTime = 15, breakCount = 5 } =
+      JSON.parse(localStorage.getItem('break')) || {};
 
     this.state = {
       interval: null,
       notificationPermission: false,
-      tasks: tasks || [],
-      breakTime: 15,
-      breakCount: 5,
-      repeatMode: 0,
+      tasks,
+      breakTime: parseInt(breakTime, 10),
+      breakCount: parseInt(breakCount, 10),
+      repeatMode,
     };
   }
 
@@ -222,15 +225,20 @@ export class Pomodoro extends React.Component {
   }
 
   saveSettings({ breakTime, breakCount }) {
-    this.setState({
-      breakTime,
-      breakCount,
-    });
+    const breakSettings = {
+      breakTime: parseInt(breakTime, 10),
+      breakCount: parseInt(breakCount, 10),
+    };
+
+    localStorage.setItem('break', JSON.stringify(breakSettings));
+    this.setState(breakSettings);
   }
 
   toggleRepeatMode() {
     const repeatMode =
       this.state.repeatMode < 2 ? this.state.repeatMode + 1 : 0;
+
+    localStorage.setItem('repeatMode', repeatMode);
     this.setState(prevState => ({ ...prevState, ...{ repeatMode } }));
   }
 
