@@ -6,7 +6,7 @@ import add from '../assets/add.svg';
 
 const Container = styled.div`
   display: flex;
-  width: 375px;
+  width: 367px;
   margin: 0 auto;
   height: 50px;
   border-top: 1px solid ${styleVariables.secondary};
@@ -18,7 +18,7 @@ const Container = styled.div`
 const Input = styled.input`
   height: 36px;
   margin-right: 5px;
-  width: 147px;
+  width: 143px;
   padding: 5px;
   font-size: 16px;
   border: 1px solid ${styleVariables.secondary};

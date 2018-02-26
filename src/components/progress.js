@@ -23,7 +23,7 @@ const Container = styled.div`
 const ButtonContainer = styled.div`
   position: absolute;
   left: ${(375 - 40) / 2}px;
-  top: ${10 + (300 - 40) / 2}px;
+  top: 150px;
   display: flex;
   align-items: center;
   width: 40px;
