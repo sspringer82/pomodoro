@@ -52,9 +52,14 @@ export const Progress = ({ onToggleStartStop, task }) => {
     task = { time: 0, duration: 0 };
   }
 
+  let duration = task.duration;
+  if (task.state === STATE_PAUSE_STARTED) {
+    duration = task.break;
+  }
+
   var data = [
     { key: '', y: task.time, color: styleVariables.primary },
-    { key: '', y: task.duration - task.time, color: '#4f4f4f ' },
+    { key: '', y: duration - task.time, color: '#4f4f4f ' },
   ];
 
   const playImg = <img src={play} height="48" width="48" alt="start" />;
