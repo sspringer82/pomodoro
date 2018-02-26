@@ -6,6 +6,8 @@ import add from '../assets/add.svg';
 
 const Container = styled.div`
   display: flex;
+  width: 375px;
+  margin: 0 auto;
   height: 50px;
   border-top: 1px solid ${styleVariables.secondary};
   border-bottom: 1px solid ${styleVariables.secondary};
@@ -16,18 +18,12 @@ const Container = styled.div`
 const Input = styled.input`
   height: 36px;
   margin-right: 5px;
+  width: 147px;
   padding: 5px;
   font-size: 16px;
   border: 1px solid ${styleVariables.secondary};
   color: ${styleVariables.secondary};
   background-color: ${styleVariables.background};
-`;
-
-const BreakTime = Input.extend`
-  width: 192px;
-`;
-const BreakCount = Input.extend`
-  width: 40px;
 `;
 
 const ButtonContainer = styled.div`
@@ -56,14 +52,14 @@ export class Settings extends React.Component {
   render() {
     return (
       <Container>
-        <BreakTime
+        <Input
           type="text"
           placeholder="breakTime"
           name="breakTime"
           value={this.state.breakTime}
           onChange={event => this.handleChange(event)}
         />
-        <BreakCount
+        <Input
           type="text"
           placeholder="count"
           name="breakCount"
