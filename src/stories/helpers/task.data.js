@@ -1,3 +1,5 @@
+import { STATE_STOPPED } from '../../util/constants';
+
 export const tasks = [
   {
     name: 'My first task',
