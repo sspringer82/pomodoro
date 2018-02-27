@@ -147,7 +147,7 @@ export class Footer extends React.Component {
             duration={this.props.duration}
             count={this.props.count}
             onSave={settings => {
-              this.state.settings = false;
+              this.setState({ settings: false });
               this.props.saveSettings(settings);
             }}
           />
