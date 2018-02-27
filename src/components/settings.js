@@ -38,11 +38,15 @@ const ButtonContainer = styled.div`
 export class Settings extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { breakTime: props.breakTime, breakCount: props.breakCount };
+    this.state = { duration: props.duration, count: props.count };
   }
 
   handleChange(event) {
     const target = event.target;
+
+    console.log(this.state);
+    console.log(target.name);
+    console.log(target.value);
 
     this.setState({
       [target.name]: target.value,
@@ -54,16 +58,16 @@ export class Settings extends React.Component {
       <Container>
         <Input
           type="text"
-          placeholder="breakTime"
-          name="breakTime"
-          value={this.state.breakTime}
+          placeholder="duration"
+          name="duration"
+          value={this.state.duration}
           onChange={event => this.handleChange(event)}
         />
         <Input
           type="text"
           placeholder="count"
-          name="breakCount"
-          value={this.state.breakCount}
+          name="count"
+          value={this.state.count}
           onChange={event => this.handleChange(event)}
         />
         <ButtonContainer onClick={() => this.props.onSave(this.state)}>
@@ -75,7 +79,7 @@ export class Settings extends React.Component {
 }
 
 Settings.propTypes = {
-  breakTime: PropTypes.number,
-  breakCount: PropTypes.number,
+  duration: PropTypes.number,
+  count: PropTypes.number,
   onSave: PropTypes.func,
 };

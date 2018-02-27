@@ -9,6 +9,8 @@ import {
   STATE_STOPPED,
   STATE_PAUSE_STARTED,
   STATE_PAUSE_STOPPED,
+  STATE_BIG_BREAK_STOPPED,
+  STATE_BIG_BREAK_STARTED,
   MODE_SINGLE,
   MODE_REPEAT_ONE,
   MODE_REPEAT_ALL,
@@ -31,16 +33,20 @@ export class Pomodoro extends React.Component {
 
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     const repeatMode = parseInt(localStorage.getItem('repeatMode'), 10) || 0;
-    const { breakTime = 15, breakCount = 5 } =
+    const { duration = 15, count = 5 } =
       JSON.parse(localStorage.getItem('break')) || {};
-
     this.state = {
       interval: null,
       notificationPermission: false,
       tasks,
-      breakTime: parseInt(breakTime, 10),
-      breakCount: parseInt(breakCount, 10),
       repeatMode,
+      break: {
+        active: false,
+        duration: parseInt(duration, 10),
+        count: parseInt(count, 10),
+        time: 0,
+        state: STATE_BIG_BREAK_STOPPED,
+      },
     };
   }
 
@@ -55,25 +61,47 @@ export class Pomodoro extends React.Component {
     }
   }
 
+  doBigBreak() {
+    const taskCount = this.state.tasks.reduce(
+      (prev, currentTask) => prev + currentTask.amount,
+      0,
+    );
+    return taskCount % this.state.count === 0;
+  }
+
   finish(task) {
     task.amount += 1;
     if (this.state.notificationPermission) {
       new Notification(task.name + ' ended');
     }
 
+    if (this.state.break.active) {
+      clearInterval(this.state.interval);
+      this.setState({ break: { ...this.state.break, active: false } });
+      task = this.getActiveTask();
+    }
+
     if (task.state === STATE_STARTED) {
-      this.startPause(task);
+      if (this.doBigBreak()) {
+        this.startBigBreak();
+      } else {
+        this.startPause(task);
+      }
     } else {
       switch (this.state.repeatMode) {
         case MODE_SINGLE:
           this.stop(task);
           break;
         case MODE_REPEAT_ONE:
-          // stop & start same task or big break
+          this.stop(task);
+          this.start(task);
           break;
         case MODE_REPEAT_ALL:
         default:
-          // stop & start next task or big break
+          this.stop(task);
+          let index = this.tasks.findIndex(t => t.id === task.id);
+          let nextIndex = ++index >= this.tasks.length ? 0 : index;
+          this.start(this.tasks[nextIndex]);
           break;
       }
     }
@@ -83,6 +111,13 @@ export class Pomodoro extends React.Component {
     const t = { ...task, time: task.break };
     clearInterval(this.state.interval);
     this.start(t, STATE_PAUSE_STARTED);
+  }
+
+  startBigBreak() {
+    const bigBreak = this.state.break;
+    bigBreak.active = true;
+    clearInterval(this.state.interval);
+    this.start(this.state.break, STATE_BIG_BREAK_STARTED);
   }
 
   stop(task) {
@@ -95,8 +130,11 @@ export class Pomodoro extends React.Component {
   }
 
   start(task, state = STATE_STARTED) {
-    console.log('start');
-    this.updateTask({ ...task, state });
+    if (state !== STATE_BIG_BREAK_STARTED) {
+      this.updateTask({ ...task, state });
+    } else {
+      this.setState({ break: { ...this.state.break, active: true } });
+    }
     this.setState(prevState => ({
       ...prevState,
       ...{
@@ -105,8 +143,14 @@ export class Pomodoro extends React.Component {
           if (task.time <= 0) {
             this.finish(task);
           } else {
-            task.time -= 1;
-            this.updateTask(task);
+            if (state !== STATE_BIG_BREAK_STARTED) {
+              task.time -= 1;
+              this.updateTask(task);
+            } else {
+              this.setState({
+                break: { ...this.state.break, time: this.state.break.time - 1 },
+              });
+            }
           }
         }, 1000),
       },
@@ -114,6 +158,9 @@ export class Pomodoro extends React.Component {
   }
 
   getActiveTask() {
+    if (this.state.break.active) {
+      return this.state.break;
+    }
     return this.state.tasks.find(task => task.active);
   }
 
@@ -224,14 +271,14 @@ export class Pomodoro extends React.Component {
     });
   }
 
-  saveSettings({ breakTime, breakCount }) {
+  saveSettings({ duration, count }) {
     const breakSettings = {
-      breakTime: parseInt(breakTime, 10),
-      breakCount: parseInt(breakCount, 10),
+      duration: parseInt(duration, 10),
+      count: parseInt(count, 10),
     };
 
     localStorage.setItem('break', JSON.stringify(breakSettings));
-    this.setState(breakSettings);
+    this.setState({ break: breakSettings });
   }
 
   toggleRepeatMode() {
@@ -244,7 +291,6 @@ export class Pomodoro extends React.Component {
 
   render() {
     const activeTask = this.getActiveTask();
-
     return (
       <div>
         <Progress
@@ -265,8 +311,8 @@ export class Pomodoro extends React.Component {
         <Footer
           onCreate={data => this.handleCreate(data)}
           saveSettings={settings => this.saveSettings(settings)}
-          breakTime={this.state.breakTime}
-          breakCount={this.state.breakCount}
+          duration={this.state.break.duration}
+          count={this.state.break.count}
           repeatMode={this.state.repeatMode}
           toggleRepeatMode={() => this.toggleRepeatMode()}
         />
