@@ -91,6 +91,7 @@ export class Pomodoro extends React.Component {
       switch (this.state.repeatMode) {
         case MODE_SINGLE:
           this.stop(task);
+          this.reset();
           break;
         case MODE_REPEAT_ONE:
           this.stop(task);
@@ -172,8 +173,7 @@ export class Pomodoro extends React.Component {
     console.log('increase');
     this.decreaseIncrease(60);
   }
-  handleReset() {
-    console.log('reset');
+  reset() {
     this.decreaseIncrease(null, true);
   }
   handleDelete(task) {
@@ -300,7 +300,7 @@ export class Pomodoro extends React.Component {
         <Controls
           onDecrease={() => this.handleDecrease()}
           onIncrease={() => this.handleIncrease()}
-          onReset={() => this.handleReset()}
+          onReset={() => this.reset()}
           task={activeTask}
         />
         <TaskList
