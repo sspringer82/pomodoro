@@ -81,13 +81,13 @@ export class Pomodoro extends React.Component {
     }
 
     if (task.state === STATE_STARTED) {
+      task.amount += 1;
       if (this.doBigBreak()) {
         this.startBigBreak();
       } else {
         this.startPause(task);
       }
     } else {
-      task.amount += 1;
       switch (this.state.repeatMode) {
         case MODE_SINGLE:
           this.stop(task);
@@ -95,6 +95,7 @@ export class Pomodoro extends React.Component {
           break;
         case MODE_REPEAT_ONE:
           this.stop(task);
+          task.time = task.duration;
           this.start(task);
           break;
         case MODE_REPEAT_ALL:
