@@ -70,7 +70,6 @@ export class Pomodoro extends React.Component {
   }
 
   finish(task) {
-    task.amount += 1;
     if (this.state.notificationPermission) {
       new Notification(task.name + ' ended');
     }
@@ -88,6 +87,7 @@ export class Pomodoro extends React.Component {
         this.startPause(task);
       }
     } else {
+      task.amount += 1;
       switch (this.state.repeatMode) {
         case MODE_SINGLE:
           this.stop(task);
