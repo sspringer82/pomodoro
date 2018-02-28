@@ -51,7 +51,6 @@ export class Pomodoro extends React.Component {
   }
 
   handleToggleStartStop() {
-    console.log('handle Toggle Start Stop');
     const task = this.getActiveTask();
     if (!task) return;
     if (task.state === STATE_STARTED || task.state === STATE_PAUSE_STARTED) {
@@ -101,9 +100,10 @@ export class Pomodoro extends React.Component {
         case MODE_REPEAT_ALL:
         default:
           this.stop(task);
-          let index = this.tasks.findIndex(t => t.id === task.id);
-          let nextIndex = ++index >= this.tasks.length ? 0 : index;
-          this.start(this.tasks[nextIndex]);
+          let index = this.state.tasks.findIndex(t => t.id === task.id);
+          let nextIndex = ++index >= this.state.tasks.length ? 0 : index;
+          this.handleActivate(this.state.tasks[nextIndex]);
+          this.start(this.state.tasks[nextIndex]);
           break;
       }
     }
@@ -167,11 +167,9 @@ export class Pomodoro extends React.Component {
   }
 
   handleDecrease() {
-    console.log('decrease');
     this.decreaseIncrease(-60);
   }
   handleIncrease() {
-    console.log('increase');
     this.decreaseIncrease(60);
   }
   reset() {
