@@ -53,7 +53,11 @@ export class Pomodoro extends React.Component {
   handleToggleStartStop() {
     const task = this.getActiveTask();
     if (!task) return;
-    if (task.state === STATE_STARTED || task.state === STATE_PAUSE_STARTED) {
+    if (
+      [STATE_STARTED, STATE_PAUSE_STARTED, STATE_BIG_BREAK_STARTED].includes(
+        task.state,
+      )
+    ) {
       this.stop(task);
     } else {
       this.start(task);
@@ -118,16 +122,29 @@ export class Pomodoro extends React.Component {
   startBigBreak() {
     const bigBreak = this.state.break;
     bigBreak.active = true;
+    bigBreak.time = bigBreak.duration;
+    bigBreak.state = STATE_BIG_BREAK_STARTED;
     clearInterval(this.state.interval);
-    this.start(this.state.break, STATE_BIG_BREAK_STARTED);
+    this.start(this.state.break);
   }
 
   stop(task) {
-    let state = STATE_STOPPED;
-    if (task.state === STATE_PAUSE_STARTED) {
-      state = STATE_PAUSE_STOPPED;
+    let state;
+    switch (task.state) {
+      case STATE_PAUSE_STARTED:
+        state = STATE_PAUSE_STOPPED;
+        this.updateTask({ ...task, state });
+        break;
+      case STATE_BIG_BREAK_STARTED:
+        state = STATE_BIG_BREAK_STOPPED;
+        this.setState({ break: { ...this.state.break, state } });
+        break;
+      case STATE_STARTED:
+      default:
+        state = STATE_STOPPED;
+        this.updateTask({ ...task, state });
+        break;
     }
-    this.updateTask({ ...task, state });
     clearInterval(this.state.interval);
   }
 
@@ -135,7 +152,7 @@ export class Pomodoro extends React.Component {
     if (state !== STATE_BIG_BREAK_STARTED) {
       this.updateTask({ ...task, state });
     } else {
-      this.setState({ break: { ...this.state.break, active: true } });
+      this.setState({ break: { ...this.state.break } });
     }
     this.setState(prevState => ({
       ...prevState,
