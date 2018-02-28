@@ -65,7 +65,7 @@ export class Pomodoro extends React.Component {
       (prev, currentTask) => prev + currentTask.amount,
       0,
     );
-    return taskCount % this.state.count === 0;
+    return taskCount % this.state.break.count === 0;
   }
 
   finish(task) {
