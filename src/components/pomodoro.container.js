@@ -74,7 +74,7 @@ export class Pomodoro extends React.Component {
 
   finish(task) {
     if (this.state.notificationPermission) {
-      new Notification(task.name + ' ended');
+      let taskNamem = new Notification((task.name || 'Pause') + ' beendet');
     }
 
     if (this.state.break.active) {
