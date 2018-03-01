@@ -63,6 +63,7 @@ export class Form extends React.Component {
           type="text"
           placeholder="title"
           name="title"
+          autoComplete="off"
           value={this.state.title}
           onChange={event => this.handleChange(event)}
         />
@@ -70,6 +71,7 @@ export class Form extends React.Component {
           type="text"
           placeholder="time"
           name="time"
+          autoComplete="off"
           value={this.state.time}
           onChange={event => this.handleChange(event)}
         />
@@ -77,6 +79,7 @@ export class Form extends React.Component {
           type="text"
           placeholder="break"
           name="break"
+          autoComplete="off"
           value={this.state.break}
           onChange={event => this.handleChange(event)}
         />
