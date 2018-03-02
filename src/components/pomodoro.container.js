@@ -211,16 +211,17 @@ export class Pomodoro extends React.Component {
   handleDecrease() {
     this.decreaseIncrease(-60);
   }
+
   handleIncrease() {
     this.decreaseIncrease(60);
   }
+
   reset() {
     this.decreaseIncrease(null, true);
   }
+
   handleDelete(task) {
-    const index = this.state.tasks.findIndex(t => t.id === task.id);
-    const tasks = [...this.state.tasks];
-    tasks.splice(index, 1);
+    const tasks = this.state.tasks.filter(t => t.id !== task.id);
     this.setState(prev => ({ ...prev, ...{ tasks } }));
     this.storeTasks(tasks);
     if (task.active) {
