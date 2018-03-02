@@ -74,16 +74,18 @@ export class Pomodoro extends React.Component {
 
   finish(task) {
     if (this.state.notificationPermission) {
-      let taskNamem = new Notification((task.name || 'Pause') + ' beendet');
+      new Notification((task.name || 'Pause') + ' beendet');
     }
 
+    let bigBreakEnded = false;
     if (this.state.break.active) {
+      bigBreakEnded = true;
       clearInterval(this.state.interval);
       this.setState({ break: { ...this.state.break, active: false } });
       task = this.getActiveTask();
     }
 
-    if (task.state === STATE_STARTED) {
+    if (task.state === STATE_STARTED && !bigBreakEnded) {
       task.amount += 1;
       if (this.doBigBreak()) {
         this.startBigBreak();
@@ -289,7 +291,7 @@ export class Pomodoro extends React.Component {
 
   saveSettings({ duration, count }) {
     const breakSettings = {
-      duration: parseInt(duration, 10),
+      duration: parseInt(duration, 10) * 60,
       count: parseInt(count, 10),
     };
 
@@ -327,7 +329,7 @@ export class Pomodoro extends React.Component {
         <Footer
           onCreate={data => this.handleCreate(data)}
           saveSettings={settings => this.saveSettings(settings)}
-          duration={this.state.break.duration}
+          duration={this.state.break.duration / 60}
           count={this.state.break.count}
           repeatMode={this.state.repeatMode}
           toggleRepeatMode={() => this.toggleRepeatMode()}
