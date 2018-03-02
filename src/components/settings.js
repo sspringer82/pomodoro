@@ -6,19 +6,19 @@ import add from '../assets/add.svg';
 
 const Container = styled.div`
   display: flex;
-  width: 367px;
+  width: 375px;
   margin: 0 auto;
   height: 50px;
   border-top: 1px solid ${styleVariables.secondary};
   border-bottom: 1px solid ${styleVariables.secondary};
-  padding: 4px;
+  padding: 4px 0;
   background-color: ${styleVariables.background};
 `;
 
 const Input = styled.input`
   height: 36px;
   margin-right: 5px;
-  width: 143px;
+  width: 147px;
   padding: 5px;
   font-size: 16px;
   border: 1px solid ${styleVariables.secondary};
@@ -43,11 +43,6 @@ export class Settings extends React.Component {
 
   handleChange(event) {
     const target = event.target;
-
-    console.log(this.state);
-    console.log(target.name);
-    console.log(target.value);
-
     this.setState({
       [target.name]: target.value,
     });

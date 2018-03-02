@@ -9,7 +9,7 @@ const Container = styled.div`
   height: 50px;
   border-top: 1px solid ${styleVariables.secondary};
   border-bottom: 1px solid ${styleVariables.secondary};
-  padding: 4px;
+  padding: 4px 0;
   background-color: ${styleVariables.background};
 `;
 
@@ -24,7 +24,7 @@ const Input = styled.input`
 `;
 
 const Title = Input.extend`
-  width: 192px;
+  width: 200px;
 `;
 const Time = Input.extend`
   width: 40px;
