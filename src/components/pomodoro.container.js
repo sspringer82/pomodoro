@@ -31,7 +31,30 @@ export class Pomodoro extends React.Component {
       }
     }
 
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const defaultTasks = [
+      {
+        id: 1,
+        name: 'First task',
+        time: 25 * 60,
+        duration: 25 * 60,
+        break: 5 * 60,
+        amount: 0,
+        state: STATE_STOPPED,
+        active: true,
+      },
+      {
+        id: 2,
+        name: 'Second task',
+        time: 25 * 60,
+        duration: 25 * 60,
+        break: 5 * 60,
+        amount: 0,
+        state: STATE_STOPPED,
+        active: false,
+      },
+    ];
+
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || defaultTasks;
     const repeatMode = parseInt(localStorage.getItem('repeatMode'), 10) || 0;
     const { duration = 15, count = 5 } =
       JSON.parse(localStorage.getItem('break')) || {};
