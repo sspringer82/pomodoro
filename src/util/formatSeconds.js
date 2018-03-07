@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import * as momentDurationFormat from 'moment-duration-format';
+const momentDurationFormat = require('moment-duration-format');
 
 momentDurationFormat(moment);
 
