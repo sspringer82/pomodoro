@@ -6,6 +6,10 @@ Simple timer application running in your browser.
 
 Supports you working with the pomodoro technique (https://en.wikipedia.org/wiki/Pomodoro_Technique)
 
+## Demo
+
+have a look at https://sspringer82.github.io/pomodoro
+
 ## Start
 
 ```
