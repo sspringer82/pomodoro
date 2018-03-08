@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { task as taskPropType } from '../types/task';
 import { formatSeconds } from '../util/formatSeconds';
 import { styleVariables } from '../styles/variables';
+import { Time } from './time';
 import arrowDown from '../assets/arrow-up.svg';
 import arrowUp from '../assets/arrow-down.svg';
 import reset from '../assets/reset.svg';
@@ -84,7 +85,7 @@ export const Controls = ({ onIncrease, onDecrease, onReset, task }) => {
         <Line1 />
       </LineContainer>
       <TimeContainer>
-        <div>{formatSeconds(time)}</div>
+        <Time task={task} />
       </TimeContainer>
       <LineContainer>
         <Line2 />
