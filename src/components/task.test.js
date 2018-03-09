@@ -31,4 +31,11 @@ describe('<Task />', () => {
     expect(getTextFromStyledByClassName(wrapper, 'break')).toBe('5:00');
     expect(getTextFromStyledByClassName(wrapper, 'amount')).toBe('0');
   });
+
+  test('delete a task', () => {
+    const deleteMock = jest.fn();
+    const wrapper = shallow(<Task task={task} onDelete={deleteMock} />);
+    wrapper.find('.delete > img').simulate('click');
+    expect(deleteMock).toHaveBeenCalledTimes(1);
+  });
 });
