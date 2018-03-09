@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { task as taskPropType } from '../types/task';
-import { formatSeconds } from '../util/formatSeconds';
 import { styleVariables } from '../styles/variables';
 import { Time } from './time';
 import arrowDown from '../assets/arrow-up.svg';
@@ -69,8 +68,6 @@ const Line2 = styled.div`
 `;
 
 export const Controls = ({ onIncrease, onDecrease, onReset, task }) => {
-  const time = task ? task.time : '';
-
   return (
     <Container>
       <DirectionButtons>
