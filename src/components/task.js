@@ -49,23 +49,25 @@ export const Task = ({ task, onDelete, onActivate }) => {
   if (task.active) {
     return (
       <ActiveContainer>
-        <ActiveName>{task.name}</ActiveName>
-        <Cell>{formatSeconds(task.duration)}</Cell>
-        <Cell>{formatSeconds(task.break)}</Cell>
-        <Amount>{task.amount}</Amount>
-        <DelCell>
+        <ActiveName className="name">{task.name}</ActiveName>
+        <Cell className="duration">{formatSeconds(task.duration)}</Cell>
+        <Cell className="break">{formatSeconds(task.break)}</Cell>
+        <Amount className="amount">{task.amount + ''}</Amount>
+        <DelCell className="delete">
           <img src={del} onClick={() => onDelete(task)} alt="delete" />
         </DelCell>
       </ActiveContainer>
     );
   } else {
     return (
-      <Container>
-        <Name onClick={() => onActivate(task)}>{task.name}</Name>
-        <Cell>{formatSeconds(task.duration)}</Cell>
-        <Cell>{formatSeconds(task.break)}</Cell>
-        <Amount>{task.amount}</Amount>
-        <DelCell>
+      <Container className="activated">
+        <Name className="name" onClick={() => onActivate(task)}>
+          {task.name}
+        </Name>
+        <Cell className="duration">{formatSeconds(task.duration)}</Cell>
+        <Cell className="break">{formatSeconds(task.break)}</Cell>
+        <Amount className="amount">{task.amount + ''}</Amount>
+        <DelCell className="delete">
           <img src={del} onClick={() => onDelete(task)} alt="delete" />
         </DelCell>
       </Container>
