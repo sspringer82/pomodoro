@@ -30,6 +30,8 @@ describe('<Task />', () => {
     expect(getTextFromStyledByClassName(wrapper, 'duration')).toBe('15:00');
     expect(getTextFromStyledByClassName(wrapper, 'break')).toBe('5:00');
     expect(getTextFromStyledByClassName(wrapper, 'amount')).toBe('0');
+    expect(wrapper.find('.active').length).toEqual(0);
+    expect(wrapper.find('.inactive').length).toEqual(1);
   });
 
   test('delete a task', () => {
@@ -37,5 +39,24 @@ describe('<Task />', () => {
     const wrapper = shallow(<Task task={task} onDelete={deleteMock} />);
     wrapper.find('.delete > img').simulate('click');
     expect(deleteMock).toHaveBeenCalledTimes(1);
+    expect(deleteMock).toHaveBeenCalledWith(task);
+  });
+  test('activate a task', () => {
+    const activateMock = jest.fn();
+    const wrapper = shallow(<Task task={task} onActivate={activateMock} />);
+    wrapper.find('.name').simulate('click');
+    expect(activateMock).toHaveBeenCalledTimes(1);
+    expect(activateMock).toHaveBeenCalledWith(task);
+  });
+
+  test('should display the correct values for activated task', () => {
+    const clone = { ...task, active: true };
+    const wrapper = shallow(<Task task={clone} />);
+    expect(getTextFromStyledByClassName(wrapper, 'name')).toBe('task 1');
+    expect(getTextFromStyledByClassName(wrapper, 'duration')).toBe('15:00');
+    expect(getTextFromStyledByClassName(wrapper, 'break')).toBe('5:00');
+    expect(getTextFromStyledByClassName(wrapper, 'amount')).toBe('0');
+    expect(wrapper.find('.active').length).toEqual(1);
+    expect(wrapper.find('.inactive').length).toEqual(0);
   });
 });
