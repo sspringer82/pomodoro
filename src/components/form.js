@@ -83,6 +83,7 @@ export class Form extends React.Component {
           autoComplete="off"
           value={this.state.title}
           onChange={event => this.handleChange(event)}
+          autoFocus
         />
         <Time
           type="text"
