@@ -58,10 +58,8 @@ export class Form extends React.Component {
   }
 
   handleKeyEvent(e) {
-    switch (e.code) {
-      case 'Enter':
-        this.props.onCreate(this.state);
-        break;
+    if (e.code === 'Enter') {
+      this.props.onCreate(this.state);
     }
   }
 
