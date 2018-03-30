@@ -46,6 +46,23 @@ export class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = { title: '', time: '', break: '' };
+    this.handleKeyEvent = this.handleKeyEvent.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('keypress', this.handleKeyEvent);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keypress', this.handleKeyEvent);
+  }
+
+  handleKeyEvent(e) {
+    switch (e.code) {
+      case 'Enter':
+        this.props.onCreate(this.state);
+        break;
+    }
   }
 
   handleChange(event) {
